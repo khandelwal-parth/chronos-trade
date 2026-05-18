@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chronos — Time Travel Trading</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,700;1,400;1,700&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #fdf8f0;
+            --warm: #fff9f2;
+            --amber: #e8913a;
+            --amber-light: #f5c27a;
+            --amber-dark: #c4721f;
+            --brown: #4a2c0a;
+            --brown-mid: #7a4f28;
+            --brown-light: #a07040;
+            --border: #ead9be;
+            --text: #2c1a08;
+            --muted: #9a7a52;
+            --green: #2a6e44;
+            --green-bg: #e8f5ee;
+            --red: #b83030;
+            --red-bg: #fdecea;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── Nav ── */
+        nav {
+            padding: 20px 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+            background: var(--warm);
+        }
+        .logo {
+            font-family: 'Fraunces', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--brown);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--amber);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        .nav-tag {
+            font-size: 0.75rem;
+            color: var(--muted);
+            letter-spacing: 0.08em;
+        }
+
+        /* ── Main Layout ── */
+        .main {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            min-height: calc(100vh - 73px);
+        }
+
+        /* ── Left ── */
+        .left {
+            padding: 72px 64px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-right: 1px solid var(--border);
+        }
+
+        .eyebrow {
+            font-size: 0.72rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--amber);
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .eyebrow::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--amber);
+        }
+
+        h1 {
+            font-family: 'Fraunces', serif;
+            font-size: 4.5rem;
+            line-height: 1.05;
+            color: var(--brown);
+            margin-bottom: 20px;
+            max-width: 540px;
+        }
+        h1 em {
+            font-style: italic;
+            color: var(--amber-dark);
+        }
+
+        .hero-sub {
+            font-size: 1rem;
+            color: var(--muted);
+            line-height: 1.75;
+            max-width: 440px;
+            margin-bottom: 48px;
+        }
+
+        /* ── Form ── */
+        .form-card {
+            background: var(--warm);
+            border: 1.5px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 480px;
+        }
+        .form-card-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.1rem;
+            color: var(--brown);
+            margin-bottom: 24px;
+        }
+
+        .field { margin-bottom: 16px; }
+        .field label {
+            display: block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--brown-light);
+            margin-bottom: 7px;
+        }
+        .field input {
+            width: 100%;
+            padding: 13px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.95rem;
+            color: var(--text);
+            background: var(--cream);
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .field input:focus {
+            border-color: var(--amber);
+            box-shadow: 0 0 0 3px rgba(232,145,58,0.1);
+        }
+
+        .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        .start-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--brown);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .start-btn:hover {
+            background: var(--amber-dark);
+            transform: translateY(-1px);
+        }
+        .start-btn:active { transform: translateY(0); }
+
+        .error-msg {
+            display: none;
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: var(--red-bg);
+            border: 1px solid #f5c6c2;
+            border-radius: 8px;
+            color: var(--red);
+            font-size: 0.84rem;
+        }
+
+        /* ── Right — Occasions ── */
+        .right {
+            background: var(--warm);
+            padding: 48px 36px;
+            overflow-y: auto;
+        }
+
+        .occasions-header {
+            font-family: 'Fraunces', serif;
+            font-size: 1.2rem;
+            color: var(--brown);
+            margin-bottom: 4px;
+        }
+        .occasions-sub {
+            font-size: 0.8rem;
+            color: var(--muted);
+            margin-bottom: 24px;
+        }
+
+        .occasion {
+            background: var(--cream);
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: all 0.18s;
+        }
+        .occasion:hover {
+            border-color: var(--amber);
+            background: #fff8ee;
+            transform: translateX(6px);
+            box-shadow: 0 2px 12px rgba(232,145,58,0.12);
+        }
+        .occ-emoji {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--amber-light), var(--amber));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        .occ-body { flex: 1; min-width: 0; }
+        .occ-name {
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: var(--brown);
+            margin-bottom: 2px;
+        }
+        .occ-desc {
+            font-size: 0.74rem;
+            color: var(--muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .occ-date {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--muted);
+            flex-shrink: 0;
+            text-align: right;
+        }
+        .occ-change {
+            font-family: 'DM Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 500;
+            flex-shrink: 0;
+            min-width: 52px;
+            text-align: right;
+        }
+        .occ-change.pos { color: var(--green); }
+        .occ-change.neg { color: var(--red); }
+
+        /* ── Loading ── */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(253, 248, 240, 0.92);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .loading-overlay.show { display: flex; }
+        .spinner {
+            width: 44px;
+            height: 44px;
+            border: 3px solid var(--border);
+            border-top-color: var(--amber);
+            border-radius: 50%;
+            animation: spin 0.75s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-title {
+            font-family: 'Fraunces', serif;
+            font-size: 1.3rem;
+            color: var(--brown);
+        }
+        .loading-sub { font-size: 0.84rem; color: var(--muted); }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.75rem;
+            color: var(--muted);
+            border-top: 1px solid var(--border);
+        }
+    </style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loader">
+    <div class="spinner"></div>
+    <div class="loading-title" id="loaderTitle">Travelling back in time...</div>
+    <div class="loading-sub" id="loaderSub">Fetching historical market data</div>
+</div>
+
+<nav>
+    <a class="logo" href="/">
+        <div class="logo-icon">⏱</div>
+        Chronos
+    </a>
+    <span class="nav-tag">Time Travel Trading Sandbox</span>
+</nav>
+
+<div class="main">
+
+    <!-- Left -->
+    <div class="left">
+        <div class="eyebrow">Trade History</div>
+        <h1>Go back.<br>Trade <em>smarter.</em><br>Learn.</h1>
+        <p class="hero-sub">Pick any stock and date from the last 2 years. Watch the chart unfold hour by hour. Buy and sell at real historical prices. See how you would've done.</p>
+
+        <div class="form-card">
+            <div class="form-card-title">Set Up Your Session</div>
+
+            <div class="field">
+                <label>Stock Symbol</label>
+                <input type="text" id="symbol" placeholder="AAPL, TSLA, NVDA, SPY..." />
+            </div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label>Date</label>
+                    <input type="date" id="date" />
+                </div>
+                <div class="field">
+                    <label>Starting Cash</label>
+                    <input type="number" id="cash" value="100000" min="1000" step="5000" />
+                </div>
+            </div>
+
+            <button class="start-btn" onclick="startSession()">
+                ⏱ Start Trading
+            </button>
+            <div class="error-msg" id="errorMsg"></div>
+        </div>
+    </div>
+
+    <!-- Right -->
+    <div class="right">
+        <div class="occasions-header">Historic Market Moments</div>
+        <div class="occasions-sub">Click any event to auto-fill and relive it.</div>
+        <div id="occasionsList"></div>
+    </div>
+
+</div>
+
+<footer>Chronos — For educational purposes only. Not financial advice.</footer>
+
+<script>
+    // Set date limits
+    const today = new Date();
+    const maxDate = new Date(today);
+    maxDate.setDate(maxDate.getDate() - 1);
+    const minDate = new Date(today);
+    minDate.setFullYear(minDate.getFullYear() - 2);
+
+    const dateInput = document.getElementById('date');
+    dateInput.max = maxDate.toISOString().split('T')[0];
+    dateInput.min = minDate.toISOString().split('T')[0];
+    dateInput.value = '2025-01-27'; // DeepSeek shock default
+
+    // Render occasions
+    const occasions = {{ occasions | tojson }};
+    const list = document.getElementById('occasionsList');
+    occasions.forEach(o => {
+        const isPos = o.change.startsWith('+');
+        list.innerHTML += `
+            <div class="occasion" onclick="fillOccasion('${o.symbol}', '${o.date}')">
+                <div class="occ-emoji">${o.emoji}</div>
+                <div class="occ-body">
+                    <div class="occ-name">${o.name}</div>
+                    <div class="occ-desc">${o.description}</div>
+                </div>
+                <div style="text-align:right;flex-shrink:0">
+                    <div class="occ-change ${isPos ? 'pos' : 'neg'}">${o.change}</div>
+                    <div class="occ-date">${o.date}</div>
+                </div>
+            </div>
+        `;
+    });
+
+    function fillOccasion(symbol, date) {
+        document.getElementById('symbol').value = symbol;
+        document.getElementById('date').value = date;
+        document.getElementById('symbol').focus();
+    }
+
+    async function startSession() {
+        const symbol = document.getElementById('symbol').value.trim().toUpperCase();
+        const date = document.getElementById('date').value;
+        const cash = parseFloat(document.getElementById('cash').value) || 100000;
+
+        if (!symbol || !date) {
+            showError('Please enter a stock symbol and date.');
+            return;
+        }
+
+        showLoader('Travelling back in time...', `Loading ${symbol} on ${date}`);
+
+        try {
+            const res = await fetch('/api/start', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ symbol, date, starting_cash: cash })
+            });
+            const data = await res.json();
+
+            if (!data.success) throw new Error(data.error);
+
+            // Save to sessionStorage and go to play page
+            sessionStorage.setItem('chronos_session', JSON.stringify({
+                session_id: data.session_id,
+                candles: data.candles,
+                meta: data.meta,
+                starting_cash: cash,
+            }));
+
+            window.location.href = '/play';
+
+        } catch (err) {
+            hideLoader();
+            showError(err.message);
+        }
+    }
+
+    function showLoader(title, sub) {
+        document.getElementById('loaderTitle').textContent = title;
+        document.getElementById('loaderSub').textContent = sub;
+        document.getElementById('loader').classList.add('show');
+    }
+    function hideLoader() { document.getElementById('loader').classList.remove('show'); }
+    function showError(msg) {
+        const el = document.getElementById('errorMsg');
+        el.textContent = msg;
+        el.style.display = 'block';
+        setTimeout(() => el.style.display = 'none', 6000);
+    }
+</script>
+</body>
+</html>
